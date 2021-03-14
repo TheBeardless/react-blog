@@ -1,15 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BlogList from "./BlogList";
 
 const Home = () => {
-  const [blogs, setBlogs] = useState([
-    { title: "My new website", body: "lorem ipsum", author: "mario", id: 1 },
-    { title: "Welcome Party", body: "lorem impsum...", author: "yoshi", id: 2 },
-    { title: "Web dev tips", body: "lorem impsum...", author: "luigi", id: 3 },
-  ]);
+  const [blogs, setBlogs] = useState(null);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      // fake loading for testing
+      fetch("http://localhost:8000/blogs")
+        .then((response) => {
+          if (!response.ok) {
+            throw Error("could not fetch the data for that resource");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setBlogs(data);
+          setIsPending(false);
+          setError(null);
+        })
+        .catch((err) => {
+          setIsPending(false);
+          setError(err.message);
+        });
+    }, 1000);
+  }, []); // <- dependencies that render on change
+
+  //conditional template - if blogs == null then don't load BlogList.
   return (
     <div className="home">
-      <BlogList blogs={blogs} title="All Blogs"></BlogList>
+      {error && <div>{error}</div>}
+      {isPending && <div>Loading...</div>}
+      {blogs && <BlogList blogs={blogs} title="All Blogs"></BlogList>}
     </div>
   );
 };
