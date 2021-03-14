@@ -1,16 +1,22 @@
 {
   "blogs": [
     {
-      "title": "My first Blog",
-      "body": "Why do we use it? ",
-      "author": "mario",
-      "id": 1
-    },
-    {
       "title": "Opening Part",
       "body": "Why do we use it? ",
       "author": "yoshi",
       "id": 2
+    },
+    {
+      "title": "Test",
+      "body": "Testing Body",
+      "author": "mario",
+      "id": 3
+    },
+    {
+      "title": "New Title",
+      "body": "New Body",
+      "author": "yoshi",
+      "id": 4
     }
   ]
 }
